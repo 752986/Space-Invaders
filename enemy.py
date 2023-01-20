@@ -1,7 +1,7 @@
 import pygame
 from pygame import Vector2 as v2
 from gameObject import GameObject
-from projectile import Projectile
+from utility import is_hit
 import random
 
 
@@ -12,12 +12,8 @@ class Enemy(GameObject):
         self.rect: pygame.Rect = pygame.Rect(pos, v2(100, 50))
 
     def update(self, game_objects: list["GameObject"], delta: float):
-        for object in game_objects:
-            if type(object) is Projectile:
-                if self.rect.colliderect(object.rect):
-                    if type(object.owner) is not Enemy:
-                        game_objects.remove(object)
-                        game_objects.remove(self)
+        if is_hit(self, game_objects):
+            self.should_delete = True
 
     def draw(self, surface: pygame.Surface):
         pygame.draw.rect(surface, (255, 255, 255), self.rect)

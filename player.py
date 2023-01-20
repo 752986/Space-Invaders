@@ -1,7 +1,7 @@
 import pygame
 import keymap
 from gameObject import GameObject
-from projectile import Projectile
+from utility import is_hit
 
 
 class Player(GameObject):
@@ -18,9 +18,5 @@ class Player(GameObject):
             self.rect.move_ip(self.SPEED * delta, 0)
 
         # projectile collision
-        for object in game_objects:
-            if type(object) is Projectile:
-                if self.rect.colliderect(object.rect):
-                    if object.owner is not self:
-                        game_objects.remove(object)
-                        # code for damage here
+        if is_hit(self, game_objects):
+            pass # code for damage here

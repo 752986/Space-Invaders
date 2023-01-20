@@ -34,6 +34,8 @@ def main():
 
         for object in game_objects:
             object.update(game_objects, delta)
+            if object.should_delete:
+                game_objects.remove(object)
 
         screen.fill((0, 0, 0))
 
