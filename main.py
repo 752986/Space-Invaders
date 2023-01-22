@@ -1,8 +1,10 @@
 import pygame
 import keymap
 import settings
-from gameObject import GameObject
-from level import Wave
+from gameObject import (GameObject, GameState)
+from player import Player
+# from level import Wave
+from event import EventHandler
 
 
 def main():
@@ -13,13 +15,14 @@ def main():
     clock = pygame.time.Clock()
 
     game_objects: list[GameObject] = []
-    game_objects.append(Wave())
+    event_handler = EventHandler()
+    game_state = GameState(game_objects, event_handler)
 
-    delta: float = 0
+    game_objects.append(Player(game_state, pygame.Vector2(1000, 800)))
+
+
     while running:
         for event in pygame.event.get():
-            # mouse = pygame.mouse.get_pos()
-
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -30,10 +33,10 @@ def main():
         if keys[keymap.QUIT]:
             running = False
 
-        delta = clock.tick(settings.FRAMERATE)
+        delta = clock.tick(settings.FRAMERATE) / 1000 # get delta and convert from milliseconds to seconds
 
         for object in game_objects:
-            object.update(game_objects, delta)
+            object.update(game_state, delta)
             if object.should_delete:
                 game_objects.remove(object)
 

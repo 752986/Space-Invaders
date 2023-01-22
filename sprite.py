@@ -1,11 +1,9 @@
 import pygame
-from gameObject import GameObject
+from gameObject import (GameObject, GameState)
 
 
 class Sprite(GameObject):
     def __init__(self, pos: pygame.Vector2, image: pygame.surface.Surface, image_size: pygame.Vector2 | None, alpha: bool = False):
-        self.pos = pos
-
         # resize the image if a size was provided
         if image_size == None:
             self.image = image
@@ -43,8 +41,8 @@ class Sprite(GameObject):
         self.rect = self.image.get_rect()
         self.rect.center = old_pos
 
-    def update(self, game_objects: list["GameObject"], delta: float):
-        self.rect.center = (int(self.pos.x), int(self.pos.y))
+    def update(self, game_state: GameState, delta: float):
+        pass
 
     def draw(self, surface: pygame.surface.Surface):
-        self.image.blit(surface, self.rect)
+        surface.blit(self.image, self.rect)

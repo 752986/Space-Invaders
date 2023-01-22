@@ -1,5 +1,5 @@
 import enemy
-from pygame import Vector2 as v2
+from pygame import (Vector2, Rect)
 from gameObject import GameObject
 
 # import random
@@ -8,23 +8,24 @@ from gameObject import GameObject
 
 class Wave(GameObject):
     def __init__(self) -> None:
+        super().__init__(Rect(0, 0, 0, 0))
         self.wave_height = 0
         #fill_wave(0)
 
     def fill_wave(self, wave_height: int) -> None:
         self.enemies: list[enemy.Enemy] = []
-        self.enemies.extend(enemy.Octo(v2(i * 100, wave_height)) for i in range(10))
+        self.enemies.extend(enemy.Octo(Vector2(i * 100, wave_height)) for i in range(10))
         self.enemies.extend(
-            enemy.Crab(v2(i * 100, wave_height + 100)) for i in range(10)
+            enemy.Crab(Vector2(i * 100, wave_height + 100)) for i in range(10)
         )
         self.enemies.extend(
-            enemy.Crab(v2(i * 100, wave_height + 150)) for i in range(10)
+            enemy.Crab(Vector2(i * 100, wave_height + 150)) for i in range(10)
         )
         self.enemies.extend(
-            enemy.Skull(v2(i * 100, wave_height + 200)) for i in range(10)
+            enemy.Skull(Vector2(i * 100, wave_height + 200)) for i in range(10)
         )
         self.enemies.extend(
-            enemy.Skull(v2(i * 100, wave_height + 250)) for i in range(10)
+            enemy.Skull(Vector2(i * 100, wave_height + 250)) for i in range(10)
         )
         for e in self.enemies:
             print(e.rect.topleft)
