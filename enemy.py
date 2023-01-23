@@ -1,6 +1,6 @@
 import pygame
 from pygame import Vector2 as v2
-from gameObject import GameObject
+from gameObject import GameObject, GameState
 from utility import is_hit
 import random
 
@@ -11,8 +11,8 @@ class Enemy(GameObject):
         self.points: int = 0
         self.rect: pygame.Rect = pygame.Rect(pos, v2(100, 50))
 
-    def update(self, game_objects: list["GameObject"], delta: float):
-        if is_hit(self, game_objects):
+    def update(self, game_state: GameState, delta: float) -> None:
+        if is_hit(self, game_state.game_objects):
             self.should_delete = True
 
     def draw(self, surface: pygame.Surface):
