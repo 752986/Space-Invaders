@@ -5,7 +5,7 @@ from gameObject import (GameObject, GameState)
 from player import Player
 from cover import generate_cover
 # from level import Wave
-from event import EventHandler
+import cProfile
 
 
 def main():
@@ -17,8 +17,7 @@ def main():
     clock = pygame.time.Clock()
 
     game_objects: list[GameObject] = []
-    event_handler = EventHandler()
-    game_state = GameState(game_objects, event_handler)
+    game_state = GameState(game_objects)
 
     game_objects.append(Player(game_state, pygame.Vector2(SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] - 50)))
     game_objects.extend(generate_cover(SCREEN_SIZE[0], 4, SCREEN_SIZE[1] - 250, None))
@@ -43,7 +42,7 @@ def main():
             if object.should_delete:
                 game_objects.remove(object)
 
-        screen.fill((0, 0, 0))
+        screen.fill((10, 10, 20))
 
         for object in game_objects:
             object.draw(screen)
@@ -52,4 +51,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    cProfile.run("main()", sort="time")
