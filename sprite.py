@@ -4,6 +4,7 @@ from gameObject import (GameObject, GameState)
 
 class Sprite(GameObject):
     def __init__(self, pos: pygame.Vector2, image: pygame.surface.Surface, image_size: pygame.Vector2 | None, alpha: bool = False):
+        '''Initialize a new `Sprite`. If `image_size` is left as `None`, it will use the image's native size.'''
         # resize the image if a size was provided
         if image_size == None:
             self.image = image

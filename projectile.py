@@ -28,5 +28,6 @@ class Projectile(Sprite):
 
         # delete the projectile if it goes off screen
         if not (pygame.display.get_surface().get_rect().contains(self.rect)):
-            game_state.event_handler.emit_event(ProjectileDeleted(self))
             self.should_delete = True
+        if self.should_delete:
+            game_state.event_handler.emit_event(ProjectileDeleted(self))

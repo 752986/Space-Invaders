@@ -3,12 +3,14 @@ import keymap
 import settings
 from gameObject import (GameObject, GameState)
 from player import Player
+from cover import generate_cover
 # from level import Wave
 from event import EventHandler
 
 
 def main():
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    SCREEN_SIZE = pygame.display.get_surface().get_size()
 
     running = True
 
@@ -18,7 +20,8 @@ def main():
     event_handler = EventHandler()
     game_state = GameState(game_objects, event_handler)
 
-    game_objects.append(Player(game_state, pygame.Vector2(1000, 800)))
+    game_objects.append(Player(game_state, pygame.Vector2(SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] - 50)))
+    game_objects.extend(generate_cover(SCREEN_SIZE[0], 4, SCREEN_SIZE[1] - 250, None))
 
 
     while running:
