@@ -1,10 +1,9 @@
 import pygame
 import keymap
 import settings
-from gameObject import (GameObject, GameState)
+from gameObject import GameObject, GameState
 from player import Player
 from cover import generate_cover
-from enemy import Octo
 from level import Wave
 
 
@@ -19,11 +18,11 @@ def main():
     game_objects: list[GameObject] = []
     game_state = GameState(game_objects)
 
-    game_objects.append(Player(game_state, pygame.Vector2(SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] - 50)))
-    game_objects.append(Octo(pygame.Vector2(100, 100)))
+    game_objects.append(
+        Player(game_state, pygame.Vector2(SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] - 50))
+    )
     game_objects.extend(generate_cover(SCREEN_SIZE[0], 4, SCREEN_SIZE[1] - 250, None))
     game_objects.append(Wave(game_state))
-
 
     while running:
         for event in pygame.event.get():
@@ -37,7 +36,9 @@ def main():
         if keys[keymap.QUIT]:
             running = False
 
-        delta = clock.tick(settings.FRAMERATE) / 1000 # get delta and convert from milliseconds to seconds
+        delta = (
+            clock.tick(settings.FRAMERATE) / 1000
+        )  # get delta and convert from milliseconds to seconds
 
         for object in game_objects:
             object.update(game_state, delta)

@@ -20,9 +20,7 @@ SKULL_IMAGES = [
     pygame.image.load("invaders_imgs/yellow_2.png"),
 ]
 
-UFO_IMAGES = [
-    pygame.image.load("invaders_imgs/UFO.png")
-]
+UFO_IMAGES = [pygame.image.load("invaders_imgs/UFO.png")]
 
 
 class Enemy(AnimatedSprite, Hittable):
@@ -32,7 +30,7 @@ class Enemy(AnimatedSprite, Hittable):
         self.points: int = 0
 
     def update(self, game_state: GameState, delta: float):
-        self.rect.move_ip(self.vel * delta)
+        pass
 
     def on_hit(self):
         self.should_delete = True
