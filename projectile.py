@@ -1,5 +1,5 @@
 import pygame
-from gameObject import (GameObject, GameState)
+from gameObject import GameObject, GameState
 from sprite import Sprite
 import player
 from hittable import Hittable
@@ -10,12 +10,18 @@ ENEMY_PROJECTILE = pygame.image.load("invaders_imgs/enemy_shot_1.png")
 
 
 class Projectile(Sprite):
-    def __init__(self, game_state: GameState, velocity: pygame.Vector2, owner: GameObject):
+    def __init__(
+        self, game_state: GameState, velocity: pygame.Vector2, owner: GameObject
+    ):
         image = PLAYER_PROJECTILE if type(owner) is player.Player else ENEMY_PROJECTILE
-        super().__init__(pygame.Vector2(owner.rect.center), image, None, True)
+        super().__init__(
+            pygame.Vector2(owner.rect.center),
+            image,
+            pygame.Vector2(image.get_size()) * 0.5,
+            True,
+        )
         self.velocity = velocity
         self.owner = owner
-
 
     def update(self, game_state: GameState, delta: float):
         self.rect.move_ip(self.velocity * delta)
@@ -30,7 +36,7 @@ class Projectile(Sprite):
             ):
                 object.on_hit()
                 self.should_delete = True
-                break # only collide with one object
+                break  # only collide with one object
 
         # delete the projectile if it goes off screen
         if not (pygame.display.get_surface().get_rect().contains(self.rect)):

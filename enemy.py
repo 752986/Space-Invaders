@@ -23,19 +23,19 @@ SKULL_IMAGES = [
 ]
 SKULL_EXPLODE = pygame.image.load("invaders_imgs/yellow_expld.png")
 
-UFO_IMAGES = [
-    pygame.image.load("invaders_imgs/UFO.png")
-]
+UFO_IMAGES = [pygame.image.load("invaders_imgs/UFO.png")]
 UFO_EXPLODE = pygame.image.load("invaders_imgs/red_expld.png")
 
 
 class Enemy(AnimatedSprite, Hittable):
     death_timer: float
 
-    def __init__(self, pos: Vector2, images: list[pygame.Surface], death: pygame.Surface):
+    def __init__(
+        self, pos: Vector2, images: list[pygame.Surface], death: pygame.Surface
+    ):
         super().__init__(pos, images, None, True)
         self.death = death
-        self.vel: Vector2 = Vector2(200, 0)
+        self.vel: Vector2 = Vector2(1, 0)
         self.points: int = 0
 
         self.death_timer = 0
@@ -49,8 +49,7 @@ class Enemy(AnimatedSprite, Hittable):
     def on_hit(self):
         self.image = self.death
         self.animation_speed = 0
-        self.vel = Vector2(0, 0)
-        self.death_timer = 1
+        self.death_timer = 0.1
 
 
 class Octo(Enemy):
