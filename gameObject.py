@@ -1,5 +1,4 @@
 import pygame
-from event import EventHandler
 
 class GameObject:
     should_delete: bool
@@ -14,6 +13,5 @@ class GameObject:
         pass
 
 class GameState:
-    def __init__(self, game_objects: list[GameObject], event_handler: EventHandler):
+    def __init__(self, game_objects: list[GameObject]):
         self.game_objects = game_objects
-        self.event_handler = event_handler

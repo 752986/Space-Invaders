@@ -1,8 +1,8 @@
 import pygame
 from pygame.math import Vector2
-from gameObject import (GameObject, GameState)
+from gameObject import GameObject
 from sprite import Sprite
-from utility import is_hit
+from hittable import Hittable
 from random import random
 
 
@@ -23,27 +23,26 @@ BARRIER_SHAPE = [
 ]
 
 # an individual tile of a barrier
-class CoverTile(Sprite):
+class CoverTile(Sprite, Hittable):
     health: int
 
     def __init__(self, pos: Vector2, size: Vector2 | None):
-        super().__init__(pos, COVER_IMAGES[0], size)
+        super().__init__(pos, COVER_IMAGES[0], size, True)
         self.health = 4
 
-    def update(self, game_state: GameState, delta: float):
+    def on_hit(self):
         # if a projectile is colliding with the tile, take damage
-        if is_hit(self, game_state.game_objects):
-            self.health -= 1
+        self.health -= 1
 
-            # if the tile is dead, remove it; otherwise, progress its stage of damage
-            if self.health <= 0:
-                self.should_delete = True
-            else:
-                self.replace_image(
-                    # randomly flip the image so it doesn't look too repetitive
-                    pygame.transform.flip(COVER_IMAGES[4 - self.health], random() > 0.5, random() > 0.5), 
-                    Vector2(self.rect.size)
-                )
+        # if the tile is dead, remove it; otherwise, progress its stage of damage
+        if self.health <= 0:
+            self.should_delete = True
+        else:
+            self.replace_image(
+                # randomly flip the image so it doesn't look too repetitive
+                pygame.transform.flip(COVER_IMAGES[4 - self.health], random() > 0.5, random() > 0.5), 
+                Vector2(self.rect.size)
+            )
 
 
 # create the CoverTiles that form a single barrier 
