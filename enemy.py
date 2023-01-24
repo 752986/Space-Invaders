@@ -1,11 +1,12 @@
 import pygame
+from sprite import Sprite
 from pygame import Vector2 as v2
-from gameObject import GameObject, GameState
+from gameObject import GameState
 from utility import is_hit
 import random
 
 
-class Enemy(GameObject):
+class Enemy(Sprite):
     def __init__(self, pos: v2) -> None:
         self.vel: v2 = v2(5, 0)
         self.points: int = 0
@@ -14,9 +15,6 @@ class Enemy(GameObject):
     def update(self, game_state: GameState, delta: float) -> None:
         if is_hit(self, game_state.game_objects):
             self.should_delete = True
-
-    def draw(self, surface: pygame.Surface):
-        pygame.draw.rect(surface, (255, 255, 255), self.rect)
 
 
 class Octo(Enemy):

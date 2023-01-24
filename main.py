@@ -4,7 +4,7 @@ import settings
 from gameObject import (GameObject, GameState)
 from player import Player
 from cover import generate_cover
-# from level import Wave
+from level import Wave
 from event import EventHandler
 
 
@@ -22,6 +22,7 @@ def main():
 
     game_objects.append(Player(game_state, pygame.Vector2(SCREEN_SIZE[0] / 2, SCREEN_SIZE[1] - 50)))
     game_objects.extend(generate_cover(SCREEN_SIZE[0], 4, SCREEN_SIZE[1] - 250, None))
+    game_objects.append(Wave(game_state))
 
 
     while running:
