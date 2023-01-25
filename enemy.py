@@ -2,6 +2,7 @@ import pygame
 from pygame import Vector2
 from gameObject import GameState
 from animatedsprite import AnimatedSprite
+from sprite import Sprite
 from hittable import Hittable
 import random
 
@@ -41,15 +42,22 @@ class Enemy(AnimatedSprite, Hittable):
         self.death_timer = 0
 
     def update(self, game_state: GameState, delta: float):
-        if self.death_timer > 0:
-            self.death_timer -= delta
-            if self.death_timer <= 0:
-                self.should_delete = True
+        if self.should_delete:
+            game_state.game_objects.append(Explosion(Vector2(self.rect.center), self.death, None))
 
     def on_hit(self):
-        self.image = self.death
-        self.animation_speed = 0
+        self.should_delete = True
+
+
+class Explosion(Sprite):
+    def __init__(self, pos: pygame.Vector2, image: pygame.surface.Surface, image_size: pygame.Vector2 | None):
+        super().__init__(pos, image, image_size, True)
         self.death_timer = 0.1
+    
+    def update(self, game_state: GameState, delta: float):
+        self.death_timer -= delta
+        if self.death_timer <= 0:
+            self.should_delete = True
 
 
 class Octo(Enemy):
