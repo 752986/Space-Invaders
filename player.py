@@ -14,6 +14,7 @@ class Player(Sprite, Hittable):
     def __init__(self, game_state: GameState, pos: pygame.Vector2):
         super().__init__(pos, pygame.image.load("invaders_imgs/player.png"), None, True)
         self.can_shoot = True
+        self.score = 0
 
     def update(self, game_state: GameState, delta: float):
         keys = pygame.key.get_pressed()
@@ -27,4 +28,6 @@ class Player(Sprite, Hittable):
                 projectile.Projectile(game_state, pygame.Vector2(0, -1000), self)
             )
             self.can_shoot = False
-            
+
+    def draw(self, surface: pygame.surface.Surface):
+        surface.blit(self.image, self.rect)

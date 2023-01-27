@@ -32,28 +32,36 @@ class Enemy(AnimatedSprite, Hittable):
     death_timer: float
 
     def __init__(
-        self, pos: Vector2, images: list[pygame.Surface], death: pygame.Surface
+        self,
+        pos: Vector2,
+        images: list[pygame.Surface],
+        death: pygame.Surface,
+        game_state: GameState,
     ):
         super().__init__(pos, images, None, True)
         self.death = death
         self.vel: Vector2 = Vector2(1, 0)
         self.points: int = 0
-
+        self.game_state = game_state
         self.death_timer = 0
 
     def update(self, game_state: GameState, delta: float):
-        if self.should_delete:
-            game_state.game_objects.append(Explosion(Vector2(self.rect.center), self.death, None))
+        pass
 
     def on_hit(self):
         self.should_delete = True
 
 
 class Explosion(Sprite):
-    def __init__(self, pos: pygame.Vector2, image: pygame.surface.Surface, image_size: pygame.Vector2 | None):
+    def __init__(
+        self,
+        pos: pygame.Vector2,
+        image: pygame.surface.Surface,
+        image_size: pygame.Vector2 | None,
+    ):
         super().__init__(pos, image, image_size, True)
         self.death_timer = 0.1
-    
+
     def update(self, game_state: GameState, delta: float):
         self.death_timer -= delta
         if self.death_timer <= 0:
@@ -61,25 +69,25 @@ class Explosion(Sprite):
 
 
 class Octo(Enemy):
-    def __init__(self, pos: Vector2):
-        super().__init__(pos, OCTO_IMAGES, OCTO_EXPLODE)
+    def __init__(self, pos: Vector2, game_state: GameState):
+        super().__init__(pos, OCTO_IMAGES, OCTO_EXPLODE, game_state)
         self.points = 40
 
 
 class Crab(Enemy):
-    def __init__(self, pos: Vector2):
-        super().__init__(pos, CRAB_IMAGES, CRAB_EXPLODE)
+    def __init__(self, pos: Vector2, game_state: GameState):
+        super().__init__(pos, CRAB_IMAGES, CRAB_EXPLODE, game_state)
         self.points = 20
 
 
 class Skull(Enemy):
-    def __init__(self, pos: Vector2):
-        super().__init__(pos, SKULL_IMAGES, SKULL_EXPLODE)
+    def __init__(self, pos: Vector2, game_state: GameState):
+        super().__init__(pos, SKULL_IMAGES, SKULL_EXPLODE, game_state)
         self.points = 10
 
 
 class UFO(Enemy):
-    def __init__(self, pos: Vector2):
-        super().__init__(pos, UFO_IMAGES, UFO_EXPLODE)
+    def __init__(self, pos: Vector2, game_state: GameState):
+        super().__init__(pos, UFO_IMAGES, UFO_EXPLODE, game_state)
         self.point_options: list[int] = [50, 250, 300]
         self.points = random.choice(self.point_options)

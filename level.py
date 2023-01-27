@@ -4,7 +4,7 @@ from gameObject import GameObject, GameState
 
 
 ENEMY_SPACING = 64
-ENEMY_PER_ROW = 11
+ENEMY_PER_ROW = 1
 STEP_SIZE = 1 / 6
 
 
@@ -21,19 +21,24 @@ class Wave(GameObject):
 
     def fill_wave(self, game_state: GameState) -> None:
         game_state.game_objects.extend(
-            enemy.Octo(self.pos_from_col(i, 0)) for i in range(ENEMY_PER_ROW)
+            enemy.Octo(self.pos_from_col(i, 0), game_state)
+            for i in range(ENEMY_PER_ROW)
         )
         game_state.game_objects.extend(
-            enemy.Crab(self.pos_from_col(i, 64)) for i in range(ENEMY_PER_ROW)
+            enemy.Crab(self.pos_from_col(i, 64), game_state)
+            for i in range(ENEMY_PER_ROW)
         )
         game_state.game_objects.extend(
-            enemy.Crab(self.pos_from_col(i, 128)) for i in range(ENEMY_PER_ROW)
+            enemy.Crab(self.pos_from_col(i, 128), game_state)
+            for i in range(ENEMY_PER_ROW)
         )
         game_state.game_objects.extend(
-            enemy.Skull(self.pos_from_col(i, 192)) for i in range(ENEMY_PER_ROW)
+            enemy.Skull(self.pos_from_col(i, 192), game_state)
+            for i in range(ENEMY_PER_ROW)
         )
         game_state.game_objects.extend(
-            enemy.Skull(self.pos_from_col(i, 256)) for i in range(ENEMY_PER_ROW)
+            enemy.Skull(self.pos_from_col(i, 256), game_state)
+            for i in range(ENEMY_PER_ROW)
         )
 
     def update(self, game_state: GameState, delta: float) -> None:
@@ -62,7 +67,7 @@ class Wave(GameObject):
         for enemy in self.get_enemies(game_state):
             enemy.vel.x *= -1
             enemy.rect.move_ip(0, height_change)
-            self.wave_height += height_change
+        self.wave_height += height_change
 
     def get_enemies(self, game_state: GameState):
         enemies: list[enemy.Enemy] = []

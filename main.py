@@ -42,6 +42,8 @@ def main():
 
         for object in game_objects:
             object.update(game_state, delta)
+
+        for object in game_objects:
             if object.should_delete:
                 game_objects.remove(object)
 
